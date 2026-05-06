@@ -1,4 +1,5 @@
 from __future__ import annotations
+import argparse
 import asyncio
 import logging
 import signal
@@ -18,7 +19,7 @@ logger = logging.getLogger(__name__)
 BASE_DIR = Path(__file__).parent.parent.parent
 
 
-async def _main() -> None:
+async def _main(once: bool = False) -> None:
     config = ConfigLoader(BASE_DIR)
     config.reload_if_changed()
 
@@ -48,6 +49,9 @@ async def _main() -> None:
             await cycle.run(config, kanboard, state)
             logger.info("Cycle complete")
 
+            if once:
+                break
+
             interval = config.app.cycle_interval_minutes * 60
             try:
                 await asyncio.wait_for(shutdown.wait(), timeout=interval)
@@ -59,7 +63,10 @@ async def _main() -> None:
 
 
 def run() -> None:
-    asyncio.run(_main())
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--once", action="store_true", help="run one cycle and exit")
+    args = parser.parse_args()
+    asyncio.run(_main(once=args.once))
 
 
 if __name__ == "__main__":
