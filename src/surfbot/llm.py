@@ -187,6 +187,7 @@ async def update_interest_profile(
 Update the interest profile to reflect what was learned from this feedback.
 The profile should capture patterns of what the user likes and dislikes to help score future items.
 Keep it concise (under 500 words). The profile should complement the base preferences, not repeat them.
+Do NOT include raw article titles, descriptions, or URLs — synthesize only abstract patterns and preferences.
 
 Respond with ONLY a JSON object with these fields:
 - profile (string, the full updated profile in Markdown)
