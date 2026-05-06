@@ -97,13 +97,13 @@ async def _phase_fetch_and_rank(
         all_new_items.extend(items)
         logger.info("Feed %s: %d new items", feed.name, len(items))
 
+    if not all_new_items:
+        logger.info("No new items to process")
+        return
+
     # 既存 Inbox タスクと統合評価
     inbox_tasks = await kanboard.get_tasks(inbox_col)
     all_items = all_new_items + inbox_tasks  # type: ignore[list-item]
-
-    if not all_items:
-        logger.info("No items to process")
-        return
 
     preferences_md = config.preferences_md
     feedback_md = config.read_feedback()

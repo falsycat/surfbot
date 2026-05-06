@@ -1,6 +1,8 @@
 from __future__ import annotations
 import calendar
+import html as _html_lib
 import logging
+import re
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from typing import TYPE_CHECKING
@@ -13,7 +15,14 @@ if TYPE_CHECKING:
 
 logger = logging.getLogger(__name__)
 
-_CONTENT_MAX_BYTES = 20_000
+_CONTENT_MAX_CHARS = 3_000
+
+
+def _strip_html(text: str) -> str:
+    text = re.sub(r'<(?:script|style)[^>]*>.*?</(?:script|style)>', '', text, flags=re.DOTALL | re.IGNORECASE)
+    text = re.sub(r'<[^>]+>', ' ', text)
+    text = _html_lib.unescape(text)
+    return re.sub(r'\s+', ' ', text).strip()
 
 
 @dataclass
@@ -66,7 +75,7 @@ async def fetch(feed: "FeedConfig", since: datetime | None = None) -> list[FeedI
             try:
                 resp = await client.get(url)
                 resp.raise_for_status()
-                fetched_contents[url] = resp.text[:_CONTENT_MAX_BYTES]
+                fetched_contents[url] = _strip_html(resp.text)[:_CONTENT_MAX_CHARS]
             except Exception as e:
                 logger.warning("Failed to fetch content for %s: %s", url, e)
 
@@ -94,5 +103,9 @@ def _parse_date(entry: feedparser.FeedParserDict) -> datetime | None:
 
 def _extract_content(entry: feedparser.FeedParserDict) -> str:
     if entry.get("content"):
-        return entry.content[0].value[:_CONTENT_MAX_BYTES]
-    return entry.get("summary", "")[:_CONTENT_MAX_BYTES]
+        raw = entry.content[0].value
+        content_type = entry.content[0].get("type", "text/html")
+        text = _strip_html(raw) if "html" in content_type else raw
+        return text[:_CONTENT_MAX_CHARS]
+    raw = entry.get("summary", "")
+    return _strip_html(raw)[:_CONTENT_MAX_CHARS]

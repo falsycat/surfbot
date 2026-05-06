@@ -88,7 +88,7 @@ class KanboardClient:
         ]
 
     async def get_task_comments(self, task_id: int) -> list[dict]:
-        return await self._call("getAllTaskComments", task_id=task_id) or []
+        return await self._call("getAllComments", task_id=task_id) or []
 
     async def create_task(self, card: dict) -> int:
         sanitized = {k: v for k, v in card.items() if k in _ALLOWED_CARD_FIELDS}

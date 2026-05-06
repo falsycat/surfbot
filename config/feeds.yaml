@@ -1,5 +1,43 @@
+# IT情報
 - name: gigazine
   url: "https://gigazine.net/news/rss_atom/"
   fetch_content: true
   instruction: |
-    'gigazine'タグをつけて
+    'it,gigazine'タグをつけて
+- name: hackernews
+  url: "https://news.ycombinator.com/rss"
+  fetch_content: true
+  instructions: |
+    'it,hackernewsタグをつけて'
+- name: infoq
+  url: "https://www.infoq.com/feed/"
+  fetch_content: true
+  instructions: |
+    'it,infoq'タグをつけて
+- name: zenn
+  url: "https://zenn.dev/feed"
+  fetch_content: true
+  instructions: |
+    'it,zenn'タグをつけて
+- name: anthropic_news
+  url: "https://www.anthropic.com/rss.xml"
+  fetch_content: true
+  instructions: |
+    'it,anthropic_news'タグをつけて
+
+# 政治経済
+- name: nikkei
+  url: "https://www.nikkei.com/news/rss/?cat=economics"
+  fetch_content: true
+  instruction: |
+    'economics,nikkei'タグをつけて
+- name: bloomberg
+  url: "https://feeds.bloomberg.com/markets/news.rss"
+  fetch_content: true
+  instruction: |
+    'economics,bloomberg'タグをつけて
+- name: bbc
+  url: "http://feeds.bbci.co.uk/news/world/rss.xml"
+  fetch_content: true
+  instruction: |
+    'economics,bbc'タグをつけて

@@ -13,7 +13,7 @@ logger = logging.getLogger(__name__)
 ScoredItem = Union[FeedItem, KanboardTask]
 
 _SCORE_MAX_CONTENT = 1000
-_CARD_MAX_CONTENT = 5000
+_CARD_MAX_CONTENT = 3000
 
 
 async def _run_claude(prompt: str) -> str:
