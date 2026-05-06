@@ -1,0 +1,4 @@
+- name: gigazine
+  url: "https://gigazine.net/news/rss_atom/"
+  fetch_content: true
+  instruction: ""

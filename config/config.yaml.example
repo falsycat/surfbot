@@ -1,0 +1,11 @@
+kanboard:
+  url: "https://kanboard.example.com/jsonrpc.php"
+  api_token: "your-api-token-here"
+  project_id: 1
+  columns:
+    inbox: "Inbox"
+    positive: "Positive"
+    negative: "Negative"
+
+cycle_interval_minutes: 60
+max_inbox_items: 30
