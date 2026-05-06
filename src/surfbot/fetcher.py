@@ -22,6 +22,7 @@ class FeedItem:
     title: str
     published_at: datetime | None
     content: str
+    summary: str
     feed: "FeedConfig"
     score: float = 0.0
 
@@ -55,7 +56,7 @@ async def fetch(feed: "FeedConfig", since: datetime | None = None) -> list[FeedI
 
     if not urls_to_fetch:
         return [
-            FeedItem(url=url, title=title, published_at=pub, content=content, feed=feed)
+            FeedItem(url=url, title=title, published_at=pub, content=content, summary=content, feed=feed)
             for url, title, pub, content in raw_items
         ]
 
@@ -75,6 +76,7 @@ async def fetch(feed: "FeedConfig", since: datetime | None = None) -> list[FeedI
             title=title,
             published_at=pub,
             content=fetched_contents.get(url, content) if feed.fetch_content else content,
+            summary=content,
             feed=feed,
         )
         for url, title, pub, content in raw_items

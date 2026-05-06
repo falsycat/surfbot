@@ -50,13 +50,12 @@ def _item_key(item: ScoredItem) -> str:
 
 def _format_item_for_prompt(item: ScoredItem) -> str:
     if isinstance(item, FeedItem):
-        content_preview = item.content[:_SCORE_MAX_CONTENT] if item.content else ""
         pub = item.published_at.isoformat() if item.published_at else "unknown"
         return (
             f"ID: FEED:{item.url}\n"
             f"Title: {item.title}\n"
             f"Published: {pub}\n"
-            f"Content: {content_preview}"
+            f"Summary: {item.summary[:_SCORE_MAX_CONTENT]}"
         )
     comments_text = ""
     if item.comments:
