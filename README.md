@@ -33,6 +33,42 @@ uv run surfbot
 
 SIGTERM / SIGINT（Ctrl+C）で現在のサイクル完了後に安全に終了する。
 
+## Docker で起動する
+
+### 前提
+
+- Docker および Docker Compose が利用可能であること
+- Claude Code の OAuth トークンを取得済みであること
+
+### セットアップ
+
+```bash
+# 環境変数ファイルを作成
+cp .env.example .env
+# トークンは claude setup-token で生成できる
+# .env を開き CLAUDE_CODE_OAUTH_TOKEN に生成したトークンを設定
+vi .env
+
+# 設定ファイルを作成（未作成の場合）
+cp config/config.yaml.example config/config.yaml
+vi config/config.yaml
+```
+
+### 起動・停止
+
+```bash
+# バックグラウンドで起動
+docker compose up -d
+
+# ログを確認
+docker compose logs -f
+
+# 停止
+docker compose down
+```
+
+コンテナはリポジトリルートをそのままマウントするため、`config/` や `data/` への変更はコンテナ再起動なしに反映される。
+
 ## Kanboard カラム構成
 
 | カラム | 役割 |

@@ -4,5 +4,4 @@ services:
     restart: unless-stopped
     volumes:
       - .:/app
-      - ~/.claude:/home/surfbot/.claude:ro
-      - ~/.claude.json:/home/surfbot/.claude.json:ro
+    env_file: .env
